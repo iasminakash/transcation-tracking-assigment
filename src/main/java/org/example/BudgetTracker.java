@@ -93,7 +93,10 @@ public class BudgetTracker {
                         System.out.println("________________________________________");
                         System.out.println("Income transactions:");
                         System.out.println("____________________");
-                        System.out.println();
+                        incomeManager.displayIncomeList(loggedInUser);
+                        System.out.println("Expense transactions:");
+                        System.out.println("____________________");
+                        expenseManager.displayExpenseList(loggedInUser);
                     }
 
                 //Alternativ 2 tar emot användarens namn och efternamn och lägger till en ny user till systemet genom att anropa metoden addUser

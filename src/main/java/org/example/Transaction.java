@@ -11,6 +11,14 @@ import java.time.LocalDate;
             this.amount = amount;
             this.date = date;
         }
+
+        public double getAmount() {
+            return amount;
+        }
+
+        public LocalDate getDate() {
+            return date;
+        }
     }
 
 
