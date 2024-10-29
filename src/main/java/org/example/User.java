@@ -8,6 +8,7 @@ public class User {
 
     private String lastName;
 
+
     private ArrayList <Income> incomeArrayList;
 
     private ArrayList <Expense> expenseArrayList;
@@ -26,7 +27,6 @@ public class User {
     public String getLastName() {
         return lastName;
     }
-
 
     public ArrayList<Income> getIncomeArrayList() {
         return incomeArrayList;

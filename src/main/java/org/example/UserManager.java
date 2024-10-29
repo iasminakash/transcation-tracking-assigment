@@ -1,17 +1,24 @@
 package org.example;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class UserManager {
-    HashMap<String, User> users = new HashMap<>();
+    private HashMap<String, User> users = new HashMap<>();;
+
+    public HashMap<String, User> getUsers() {
+        return users;
+    }
 
     // Add User (Sign up)
-    public User addUser(String firstName, String lastName) {
+    public User addUser(String firstName, String lastName){
         String fullName = firstName + " " + lastName;
         if (users.containsKey(fullName)) {
             System.out.println("The name is already reserved. Please choose a different name.");
             return null;
-        } else {
+        }
+        else {
+            String id = UUID.randomUUID().toString();
             User user = new User(firstName, lastName);
             users.put(fullName, user);
             System.out.println("The user has been added successfully.");
