@@ -1,12 +1,10 @@
 package org.example;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
-
-
 public class BudgetTracker {
     public static void main(String[] args) {
+
+    }
+    /*public static void main(String[] args) {
         //instansierar en scanner objekt
         Scanner scanner = new Scanner(System.in);
         //instansierar objekter av klasses UserMaganer, IncomeManager, ExpenseManager
@@ -194,6 +192,6 @@ public class BudgetTracker {
                 scanner.next();
             }
         }
-    }
+    }*/
 
 }

@@ -1,9 +1,7 @@
 package org.example;
 
-import java.time.LocalDate;
-
 public class IncomeManager {
-    //Metoden som adderar utgift till listan, tar emot summa, kategori, user
+   /* //Metoden som adderar utgift till listan, tar emot summa, kategori, user
     public void addIncome(double amount, EIncomeCategory category, User loggedInUser){
         Income income = new Income (amount, LocalDate.now(), category);
         loggedInUser.getIncomeArrayList().add(income);
@@ -30,7 +28,7 @@ public class IncomeManager {
             System.out.println("____________________");
         }
     }
-
+*/
     }
 
 

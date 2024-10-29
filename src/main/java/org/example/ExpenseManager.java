@@ -1,12 +1,10 @@
 package org.example;
 
-import java.time.LocalDate;
-
 //Manager klass som innnehåller metoder kopplade till utgifter
 
 public class ExpenseManager {
 
-    //Metoden som adderar utgift till listan, tar emot summa, kategori, user
+   /* //Metoden som adderar utgift till listan, tar emot summa, kategori, user
     public void addExpense(double amount, EExpenseCategory category, User loggedInUser) {
         //insantierar en objekt av klasses expense och skickar med summa, datum, kategori
         Expense expense = new Expense(amount, LocalDate.now(), category);
@@ -47,8 +45,8 @@ public class ExpenseManager {
             System.out.println("The date: " + loggedInUser.getExpenseArrayList().get(i).getDate());
             System.out.println("____________________");
         }
-
-    }
+*/
+   // }
 
 
 

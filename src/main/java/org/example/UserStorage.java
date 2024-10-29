@@ -1,15 +1,7 @@
 package org.example;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.*;
-import java.lang.reflect.Type;
-import java.util.Map;
-
 public class UserStorage {
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private Map<String, User> userList;
     private  String fileName = "src/main/user.json";
 
@@ -32,6 +24,6 @@ public class UserStorage {
         fw.close();
         System.out.println("User saved.");
     }
-
+*/
 
 }

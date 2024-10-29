@@ -1,9 +1,7 @@
 package org.example;
 
-import java.util.HashMap;
-
 public class UserManager {
-    private HashMap<String, User> users = new HashMap<>();
+   /* private HashMap<String, User> users = new HashMap<>();
 
     public HashMap<String, User> getUsers() {
         return users;
@@ -45,7 +43,7 @@ public class UserManager {
             System.out.println("This user is not registered. Please try again.");
         } return null;
     }
-
+*/
 }
 
 
