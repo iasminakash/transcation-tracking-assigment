@@ -8,6 +8,8 @@ public class User {
 
     private String lastName;
 
+    private String userName = firstName + lastName;
+
 
     private ArrayList <Income> incomeArrayList;
 
@@ -26,6 +28,10 @@ public class User {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public ArrayList<Income> getIncomeArrayList() {

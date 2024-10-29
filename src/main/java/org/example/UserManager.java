@@ -1,10 +1,9 @@
 package org.example;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class UserManager {
-    private HashMap<String, User> users = new HashMap<>();;
+    private HashMap<String, User> users = new HashMap<>();
 
     public HashMap<String, User> getUsers() {
         return users;
@@ -18,7 +17,6 @@ public class UserManager {
             return null;
         }
         else {
-            String id = UUID.randomUUID().toString();
             User user = new User(firstName, lastName);
             users.put(fullName, user);
             System.out.println("The user has been added successfully.");

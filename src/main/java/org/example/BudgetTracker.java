@@ -17,6 +17,7 @@ public class BudgetTracker {
         User loggedInUser = null;
 
 
+
         //Skriver ut valkomstmedelande och ber att välja en av alternativen
         while (true) {
             System.out.println("Welcome to the budget tracker. Please choose an alternative.");
@@ -178,6 +179,7 @@ public class BudgetTracker {
                     System.out.println("Please write your last name: ");
                     String newUserLastName = scanner.next();
                     userManager.addUser(newUserFirstName, newUserLastName);
+
 
                     //Ifall användaren 3. avslutar programmet
                 } else if (firstMenuOption == 3) {
