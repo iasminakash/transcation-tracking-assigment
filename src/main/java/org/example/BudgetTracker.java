@@ -1,22 +1,58 @@
 package org.example;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
-
 public class BudgetTracker {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
         //instansierar en scanner objekt
         Scanner scanner = new Scanner(System.in);
         //instansierar objekter av klasses UserMaganer, IncomeManager, ExpenseManager
         UserManager userManager = new UserManager();
         IncomeManager incomeManager = new IncomeManager();
         ExpenseManager expenseManager = new ExpenseManager();
-        //ger objektet user värde av null
+        //ger objektet av typ user värdet av null
         User loggedInUser = null;
+        //instansierar objekter av klass userStorage, incomeStorage, expenseStrorage ör att anropa metoden för att läsa från JSON fil
+        UserStorage userStorage = new UserStorage();
+        userManager.setUsers(userStorage.readUserFromFile());
 
+        IncomeStorage incomeStorage = new IncomeStorage();
+        incomeManager.setIncomeHashMap(incomeStorage.readIncomeFromFile());
 
+        ExpenseStorage expenseStorage = new ExpenseStorage();
+        expenseManager.setExpenseHashMap(expenseStorage.readExpenseFromFile());
+
+        //loopar genom alla userId
+        for (String userId : userManager.getUsers().keySet()) {
+            // hämta user objektet som stämmer med userId
+            User user = userManager.getUsers().get(userId);
+            // hämta inkomstlista av usern med hjälp av usedID
+            ArrayList<Income> userIncome = incomeManager.getIncomeHashMap().get(userId);
+            // Om inkomstlistam inte har null värde, ska den tilldelas till usern
+            if (userIncome != null)
+                user.setIncomeArrayList(userIncome);
+                //annars tilldela usern en töm lista
+            else
+                user.setIncomeArrayList(new ArrayList<>());
+        }
+        //loppar genom alla userId
+        for (String userId : userManager.getUsers().keySet()) {
+            // hämta user objektet som stämmer med userId
+            User user = userManager.getUsers().get(userId);
+            // hämta lista över utgifter av usern med hjälp av usedID
+            ArrayList<Expense> userExpense = expenseManager.getExpenseHashMap().get(userId);
+            // Om listan finns, då ska den tilldelas till usern
+            if (userExpense != null)
+                user.setExpenseArrayList(userExpense);
+                //annars tilldela user en töm lista
+            else
+                user.setExpenseArrayList(new ArrayList<>());
+        }
 
         //Skriver ut valkomstmedelande och ber att välja en av alternativen
         while (true) {
@@ -36,8 +72,8 @@ public class BudgetTracker {
                     //anropar metoden logInExistingUser från klasses UserManager och skickar med namnet och efternamnet (metoden ser till om user finns med i hashmap users)
                     loggedInUser = userManager.logInExistingUser(existingUserFirstName, existingUserLastName);
                     //så länge användaren är inloggad
-                    while(loggedInUser != null) {
-                        //presentera olika val, ber användaren att välja vad vill hen göra och sparar svaret i variabeln secondMenuOption
+                    while (loggedInUser != null) {
+                        //presenterar olika val, ber användaren att välja vad vill hen göra och sparar svaret i variabeln secondMenuOption
                         System.out.println("Please choose one of the options: ");
                         System.out.println("1. Add an income transaction.");
                         System.out.println("2. Add an expense transaction..");
@@ -46,7 +82,8 @@ public class BudgetTracker {
                         System.out.println("5. Change the amount of an income transaction.");
                         System.out.println("6. Delete an expense transaction.");
                         System.out.println("7. Change the amount of expense transaction.");
-                        System.out.println("8. Log out.");
+                        System.out.println("8. Delete the account.");
+                        System.out.println("9. Log out.");
                         int secondMenuOption = scanner.nextInt();
                         //om svaret är 1, dvs användaren vill lägga till inkomst, frågar efter summma och ber att använda kategorin för inkomsten
                         if (secondMenuOption == 1) {
@@ -66,12 +103,13 @@ public class BudgetTracker {
                             if (thirdMenuOption == 2) {
                                 category = EIncomeCategory.STUDYGRANT;
                             }
-                            if (thirdMenuOption ==3) {
+                            if (thirdMenuOption == 3) {
                                 category = EIncomeCategory.CHILDBENEFIT;
                             }
                             //anroppar metoden addIncome från klasses incomeManager och skickar med summan, kategorin, usern
-                            //metoden läger till inkomsten till inkomstlistan hos usern
+                            //metoden läger till inkomsten till inkomstlistan hos usern, och även uppdaterar i json fil
                             incomeManager.addIncome(amountOfNewIncome, category, loggedInUser);
+
                         }
                         //om svaret är 2, dvs användaren vill lägga till en utgift, frågar efter summan av avgiften och sparat det som värde av variabeln amountOfNewExpense
                         if (secondMenuOption == 2) {
@@ -89,33 +127,34 @@ public class BudgetTracker {
                             EExpenseCategory category = null;
                             //här avgörs kategorier av inkomsten avseende användarens svar
                             int fourthMenuOption = scanner.nextInt();
-                            if (fourthMenuOption == 1){
+                            if (fourthMenuOption == 1) {
                                 category = EExpenseCategory.RENT;
                             }
-                            if (fourthMenuOption == 2){
+                            if (fourthMenuOption == 2) {
                                 category = EExpenseCategory.BILLS;
                             }
-                            if (fourthMenuOption == 3){
+                            if (fourthMenuOption == 3) {
                                 category = EExpenseCategory.KINDERGARTEN;
                             }
-                            if (fourthMenuOption == 4){
+                            if (fourthMenuOption == 4) {
                                 category = EExpenseCategory.TRANSPORTATION;
                             }
-                            if (fourthMenuOption == 5){
+                            if (fourthMenuOption == 5) {
                                 category = EExpenseCategory.GROCERIES;
                             }
-                            if (fourthMenuOption == 6){
+                            if (fourthMenuOption == 6) {
                                 category = EExpenseCategory.OTHERS;
                             }
                             //anropar metoden addExpense och skickar med summa, kategorin, usern
-                            //metoden lägger till utgiften till utgiftlistan hos usern
+                            //metoden lägger till utgiften till utgift listan hos usern, och även uppdaterar i JSON filen
                             expenseManager.addExpense(amountOfNewExpense, category, loggedInUser);
 
+
                         }
-                        //ifall användaren vill visa listan över inkomser och utgifter ska jag anroppa på metodena som visar de
-                        //metoderna kommer från klasserna incomeManager och expenseManager och loppar genom users egna arraylistor
-                        if (secondMenuOption == 3){
-                            System.out.println("Here comes the list of all transactions:" );
+                        //ifall användaren vill visa listan över inkomster och utgifter ska jag anropa på metoden som visar de
+                        //metoderna kommer från klasserna incomeManager och expenseManager och loopar genom users egna arraylistor
+                        if (secondMenuOption == 3) {
+                            System.out.println("Here comes the list of all transactions:");
                             System.out.println("________________________________________");
                             System.out.println("Income transactions:");
                             System.out.println("____________________");
@@ -125,7 +164,7 @@ public class BudgetTracker {
                             expenseManager.displayExpenseList(loggedInUser);
                         }
                         //ifall användaren vill ta bort inkomst, presenterar listan över inkomster genom att anropa på metoden displayIncomeList från klassen incomeManager och ber att välja inkomst efter nummer
-                        if (secondMenuOption == 4){
+                        if (secondMenuOption == 4) {
                             System.out.println("You chose to delete an income transaction. Here come the current list of all income transactions.\n" +
                                     "Please introduce the number of the transaction you want to delete.");
                             incomeManager.displayIncomeList(loggedInUser);
@@ -134,7 +173,7 @@ public class BudgetTracker {
                             incomeManager.deleteIncome(loggedInUser, incomeTransactionNumber);
                         }
                         //ifall användaren ändra summan av en viss inkomst, presenterar listan över inkomster genom att anropa på metoden displayIncomeList från klassen incomeManager och ber att välja inkomst efter nummer
-                        if (secondMenuOption == 5){
+                        if (secondMenuOption == 5) {
                             System.out.println("You chose to change the amount of an income transaction. Here come the current list of all income transactions.\n" +
                                     "Please introduce the number of the transaction you want to change.");
                             incomeManager.displayIncomeList(loggedInUser);
@@ -155,7 +194,7 @@ public class BudgetTracker {
                             expenseManager.deleteExpense(expenseTransactionNumber, loggedInUser);
                         }
                         //ifall användaren ändra summan av en viss utgift, presenterar listan över utgiftert genom att anropa på metoden displayExpenseList från klassen expenseManager och ber att välja expense efter nummer
-                        if (secondMenuOption == 7){
+                        if (secondMenuOption == 7) {
                             System.out.println("You chose to change the amount of an expense transaction. Here come the current list of all expense transactions.\n" +
                                     "Please introduce the number of the transaction you want to change.");
                             expenseManager.displayExpenseList(loggedInUser);
@@ -166,19 +205,42 @@ public class BudgetTracker {
                             //anropar metoden changeExpense från klassen expenseManager och skickar med usern, ny summa, number av utgiften på listan
                             expenseManager.changeExpense(loggedInUser, newExpenseAmount, expenseTransactionNumber);
                         }
+                        //om användaren väler att ta bort sin konto, ska anropa metoden removeUser och ta bort user från user Hashmap enligt userId, vilket är nyckeln
+                        if (secondMenuOption == 8) {
+                            userManager.removeUser(loggedInUser.getUserId());
+                            //anropar metoden to skriva in till JSON fil, dvs uppdatera
+                            userStorage.writeUsersToFile(userManager.getUsers());
+                            //tar bort inkomst lista för usern
+                            incomeManager.getIncomeHashMap().remove(loggedInUser.getUserId());
+                            //uppdaterar JSON filen
+                            incomeStorage.writeIncomeToFile(incomeManager.getIncomeHashMap());
+                            //tar bort utgiftlistan för usern
+                            expenseManager.getExpenseHashMap().remove(loggedInUser.getUserId());
+                            //uppdaterar JSON filen
+                            expenseStorage.writeExpenseToFile(expenseManager.getExpenseHashMap());
+                            //loggar ut usern
+                            loggedInUser = null;
+                        }
                         //ifall användaren har valt att logga ut, ger värdet null till variabeln loggedInUser
-                        if (secondMenuOption == 8){
+                        if (secondMenuOption == 9) {
                             loggedInUser = null;
                         }
                     }
 
-                //Ifall användaren valt att registreras som ny användaren, tar emot användarens namn och efternamn och lägger till en ny user till systemet genom att anropa metoden addUser
+                    //Ifall användaren valt att registreras som ny användaren, tar emot användarens namn och efternamn och lägger till en ny user till systemet genom att anropa metoden addUser
                 } else if (firstMenuOption == 2) {
                     System.out.println("Please write your first name: ");
                     String newUserFirstName = scanner.next();
                     System.out.println("Please write your last name: ");
                     String newUserLastName = scanner.next();
-                    userManager.addUser(newUserFirstName, newUserLastName);
+                    try {
+                        loggedInUser = userManager.addUser(newUserFirstName, newUserLastName);
+                        if (loggedInUser != null) {
+                            userStorage.writeUsersToFile(userManager.getUsers());
+                        }
+                    } catch (IOException e) {
+                        System.out.println("An error occurred while saving the user.");
+                    }
 
 
                     //Ifall användaren 3. avslutar programmet

@@ -4,34 +4,33 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.Map;
+import java.util.HashMap;
 
 public class UserStorage {
+    //Insansierar Gson objekt, snyggar till det
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private Map<String, User> userList;
-    private  String fileName = "src/main/user.json";
+    //skaffar variabel fileName och ger det värde av ställen, där filen ska vara
+    private String fileName = "src/main/user.json";
 
-
-    public void readFile() throws IOException {
-        Type type = new TypeToken<Map<String, User>>() {}.getType();
-        Reader reader = new FileReader(new File(fileName));
-        userList = gson.fromJson(reader, type);
-        System.out.println("User List:");
-        for (String name : userList.keySet()) {
-            System.out.println("Name: " + name);
-
-        }
-    }
-
-    public void saveToFile(User user) throws IOException {
-        userList.put(user.getUserName(), user);
-        FileWriter fw = new FileWriter(fileName);
-        gson.toJson(user, fw);
+    //Metod för att skriva till JSON
+    public void writeUsersToFile(HashMap<String, User> users) throws IOException {
+        FileWriter fw = new FileWriter(fileName); // Open the file to write
+        gson.toJson(users, fw);
         fw.close();
-        System.out.println("User saved.");
     }
 
+    //Metod för att läsa från JSON
+    public HashMap<String, User> readUserFromFile() throws IOException {
+        FileReader fr = new FileReader(fileName);
+        Type type = new TypeToken<HashMap<String, User>>() {
+        }.getType();
+        HashMap<String, User> users = gson.fromJson(fr, type);
+        fr.close();
+        return users;
+    }
 
 }
