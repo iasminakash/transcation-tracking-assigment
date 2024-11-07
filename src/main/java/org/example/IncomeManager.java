@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+//Jag valde ha den Manager klassen för att avskilja alla metoder kopplade till inkomster
+
 public class IncomeManager {
 
     HashMap<String, ArrayList<Income>> incomeHashMap = new HashMap<>();

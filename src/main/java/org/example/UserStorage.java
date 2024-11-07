@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
+//Jag valde att lägga till den Storage klassen för att avskilja metoderna för serialisation och deserialisation of users
 public class UserStorage {
     //Insansierar Gson objekt, snyggar till det
     Gson gson = new GsonBuilder().setPrettyPrinting().create();

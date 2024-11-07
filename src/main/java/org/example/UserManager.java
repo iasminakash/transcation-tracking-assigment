@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.HashMap;
 
+//Jag valde att lägga till den Manager klassen, för att ha här metoder som involverar user och userlistan
 public class UserManager {
 
     //HashMap av users

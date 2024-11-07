@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-//Manager klass som innehåller metoder kopplade till utgifter
+//Jag valde ha den Manager klassen för att avskilja alla metoder kopplade till utgifter
 
 public class ExpenseManager {
 
